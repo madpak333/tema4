@@ -60,8 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="col-md-4 footer-column footer-center">
               <a href="index.html">Forside</a>
               <div class="footer-social">
-                <a href="#"><img src="images/figma/facebook.svg" alt="Facebook"><span>Facebook</span></a>
-                <a href="#"><img src="images/figma/instagram.png" alt="Instagram"><span>Instagram</span></a>
+                <a href="#" data-social-mockup="images/mockup1.png" data-social-name="Facebook">
+                  <img src="images/figma/facebook.svg" alt="Facebook"><span>Facebook</span>
+                </a>
+                <a href="#" data-social-mockup="images/mockup2.png" data-social-name="Instagram">
+                  <img src="images/figma/instagram.png" alt="Instagram"><span>Instagram</span>
+                </a>
                 <a href="#"><img src="images/figma/youtube.svg" alt="Youtube"><span>Youtube</span></a>
               </div>
             </div>
@@ -73,6 +77,48 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </footer>
     `;
+
+    const socialLinks = footer.querySelectorAll("[data-social-mockup]");
+    const socialModal = document.createElement("div");
+    socialModal.className = "social-modal";
+    socialModal.hidden = true;
+    socialModal.innerHTML = `
+      <div class="social-modal-backdrop" data-close-social-modal></div>
+      <div class="social-modal-content" role="dialog" aria-modal="true" aria-labelledby="social-modal-title">
+        <button class="social-modal-close" type="button" aria-label="Luk mockup">&times;</button>
+        <h2 id="social-modal-title"></h2>
+        <img class="social-modal-image" src="" alt="">
+      </div>
+    `;
+    document.body.appendChild(socialModal);
+
+    const socialModalTitle = socialModal.querySelector("#social-modal-title");
+    const socialModalImage = socialModal.querySelector(".social-modal-image");
+    const closeSocialModal = () => {
+      socialModal.hidden = true;
+      document.body.classList.remove("social-modal-open");
+    };
+
+    socialLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const name = link.dataset.socialName;
+        socialModalTitle.textContent = `${name} mockup`;
+        socialModalImage.src = link.dataset.socialMockup;
+        socialModalImage.alt = `${name} mockup`;
+        socialModal.hidden = false;
+        document.body.classList.add("social-modal-open");
+        socialModal.querySelector(".social-modal-close").focus();
+      });
+    });
+
+    socialModal.querySelector(".social-modal-close").addEventListener("click", closeSocialModal);
+    socialModal.querySelector("[data-close-social-modal]").addEventListener("click", closeSocialModal);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !socialModal.hidden) {
+        closeSocialModal();
+      }
+    });
   }
 
   const clubList = document.querySelector("#club-list");

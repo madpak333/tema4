@@ -3,6 +3,7 @@
   --dmju-ice: #ecf2fa;
   --dmju-card: #c6d9eb;
   --dmju-white: #fdfcfa;
+  --dmju-red: #e53935;
   --bs-primary: #1d4669;
   --bs-primary-rgb: 29, 70, 105;
   --bs-body-bg: #ecf2fa;
@@ -41,22 +42,22 @@ a {
 .site-header .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 20px;
   margin: 0;
   padding: 0;
   color: var(--dmju-white);
 }
 
 .site-header .brand img {
-  width: 146px;
-  height: 141px;
+  width: 125px;
+  height: 121px;
   object-fit: contain;
 }
 
 .site-header .brand span {
-  border-left: 3px solid var(--dmju-white);
-  padding-left: 30px;
-  font-size: 32px;
+  border-left: 2px solid var(--dmju-white);
+  padding-left: 24px;
+  font-size: 28px;
   font-weight: 600;
   line-height: 1.05;
 }
@@ -73,7 +74,10 @@ a {
   white-space: nowrap;
 }
 
-.site-header .nav-link:hover,
+.site-header .nav-link:hover {
+  color: var(--dmju-red);
+}
+
 .site-header .nav-link.active {
   color: var(--dmju-card);
 }
@@ -136,6 +140,70 @@ a {
   height: 58px;
 }
 
+.social-modal[hidden] {
+  display: none;
+}
+
+.social-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.social-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.social-modal-content {
+  position: relative;
+  z-index: 1;
+  max-width: min(900px, 92vw);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 28px;
+  border-radius: 24px;
+  background: var(--dmju-ice);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.social-modal-content h2 {
+  margin: 0 36px 20px;
+  color: var(--dmju-navy);
+  font-size: 28px;
+}
+
+.social-modal-image {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 16px;
+}
+
+.social-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  color: var(--dmju-navy);
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+body.social-modal-open {
+  overflow: hidden;
+}
+
 /* Forside */
 
 .home-hero {
@@ -183,6 +251,14 @@ a {
   height: 398px;
   border-radius: 59px;
   object-fit: cover;
+}
+
+.fade-image {
+  mask-image: linear-gradient(
+          to right,
+          transparent 0%,
+          black 40%
+  );
 }
 
 .home-links {
@@ -323,6 +399,11 @@ a {
   padding: 0 78px;
 }
 
+.om-dmju footer {
+  padding-top: 60px;
+  margin-top: 20px;
+}
+
 .about-copy {
   min-height: 907px;
   padding: 35px 19px;
@@ -358,6 +439,36 @@ a {
   margin-top: 51px;
 }
 
+/* Giv tekstboksen og billederne luft imellem sig på store skærme. */
+@media (min-width: 992px) {
+  .about-content > .row > .about-copy,
+  .about-content > .row > .about-media {
+    flex: 0 0 48%;
+    max-width: 48%;
+  }
+
+  .about-media {
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .about-media .about-photo {
+    flex: none;
+    width: 100%;
+    height: 454px;
+  }
+
+  .about-media .about-secondary {
+    flex: none;
+    width: 100%;
+    height: 347px;
+    margin-top: 51px;
+  }
+}
+
 /* Aktiviteter */
 
 .activities-hero {
@@ -370,6 +481,15 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.hover-dark {
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-dark:hover {
+  filter: brightness(60%);
 }
 
 .activities-hero-overlay {
@@ -516,9 +636,12 @@ a {
 }
 
 .model-wide-image {
-  width: 100%;
+  display: block;
+  width: min(1100px, 100%);
   height: 327px;
   margin-top: 36px;
+  margin-right: auto;
+  margin-left: auto;
   border-radius: 16px;
   object-fit: cover;
 }
@@ -593,6 +716,15 @@ a {
 
 .clubs-content {
   padding: 19px 24px 44px;
+}
+
+#club-list img {
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+
+#club-list img:hover {
+  filter: brightness(60%);
 }
 
 .club-filters {
@@ -732,6 +864,7 @@ a {
 .contact-box {
   margin-bottom: 38px;
   padding: 12px 40px 18px;
+  border-radius: 24px;
   background: var(--dmju-white);
   color: var(--dmju-navy);
   text-align: center;
